@@ -19,6 +19,7 @@ const grant = new Grant({
     key: 'YOUR_GOOGLE_CLIENT_ID',
     secret: 'YOUR_GOOGLE_CLIENT_SECRET',
     scope: ['profile', 'email'],
+    response: ['profile', 'token'],
     callback: '/auth/google/callback',
   },
 });
@@ -33,9 +34,8 @@ app.get('/', (req, res) => {
 
 // Handle Google OAuth 2.0 callback
 app.get('/auth/google/callback', (req, res) => {
-  const { access_token, refresh_token, profile } = req.session.grant.response;
   // Perform authentication logic and save user information here
-  res.send(`Hello ${profile.displayName}`);
+  res.send(req.session.grant.response);
 });
 
 // Start the server
